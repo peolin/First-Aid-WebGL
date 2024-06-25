@@ -12,7 +12,7 @@ const queries = {};
 server.use(express.static(path.join(__dirname, 'First-Aid-WebGL')));
 bot.onText(/help/, (msg) => bot.sendMessage(msg.from.id, "Say /game if you want to play."));
 bot.onText(/start|game/, (msg) => bot.sendGame(msg.from.id, gameName));
-bot.on("callback_query", function (query) {
+bot.on("callback_query", function(query) {
     if (query.game_short_name !== gameName) {
         bot.answerCallbackQuery(query.id, "Sorry, '" + query.game_short_name + "' is not available.");
     } else {
@@ -24,14 +24,14 @@ bot.on("callback_query", function (query) {
         });
     }
 });
-bot.on("inline_query", function (iq) {
+bot.on("inline_query", function(iq) {
     bot.answerInlineQuery(iq.id, [{
         type: "game",
         id: "0",
         game_short_name: gameName
     }]);
 });
-server.get("/highscore/:score", function (req, res, next) {
+server.get("/highscore/:score", function(req, res, next) {
     if (!Object.hasOwnProperty.call(queries, req.query.id)) return next();
     let query = queries[req.query.id];
     let options;
@@ -46,6 +46,6 @@ server.get("/highscore/:score", function (req, res, next) {
         };
     }
     bot.setGameScore(query.from.id, parseInt(req.params.score), options,
-        function (err, result) {});
+        function(err, result) {});
 });
 server.listen(port);
